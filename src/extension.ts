@@ -39,14 +39,7 @@ export async function activate(context: ExtensionContext) {
 		outputChannel,
 		diagnosticCollectionName: name,
 		outputChannelName: name,
-		revealOutputChannelOn: RevealOutputChannelOn.Never,
-		errorHandler: {
-			error: (e, m, c) => { console.error(e, m, c); return { action: ErrorAction.Continue }; },
-			closed: () => ({ action: CloseAction.DoNotRestart })
-		},
-		initializationOptions: {
-			executeCommandProvider: false
-		},
+
 	};
 
 
@@ -59,60 +52,36 @@ export async function activate(context: ExtensionContext) {
 		clientOptions
 	);
 
-	client.onNotification('textDocument/publishDiagnostics', (params) => {
-		console.log('publishDiagnostics', params);
-		// workspace.
-	});
 
-	client.onNotification('textDocument/diagnosticsBegin', (params) => {
-		console.log('diagnosticsBegin', params);
-	});
-	client.onNotification('textDocument/diagnosticsEnd', (params) => {
-		console.log('diagnosticsEnd', params);
-	});
+	// workspace.onDidOpenTextDocument(async (document: TextDocument) => {
+	// 	console.log('onDidOpenTextDocument', document.languageId);
+	// 	if (document.languageId === 'purescript') {
+	// 		console.log('onDidOpenTextDocument', document.uri);
+	// 		const params = {
+	// 			textDocument: {
+	// 				uri: document.uri.toString(),
+	// 			},
+	// 		};
+	// 		client.sendNotification('textDocument/didOpen', params);
+	// 	}
+	// });
 
-	client.onNotification('textDocument/typeCoverage', (params) => {
-		console.log('typeCoverage', params);
-	});
+	// workspace.onDidSaveTextDocument(async (document: TextDocument) => {
+	// 	console.log('onDidSaveTextDocument', document.languageId);
 
-	client.onNotification('textDocument/cleanBegin', (params) => {
-		console.log('cleanBegin', params);
-	});
-
-	client.onNotification('textDocument/cleanEnd', (params) => {
-		console.log('cleanEnd', params);
-	});
-
-
-	workspace.onDidOpenTextDocument(async (document: TextDocument) => {
-		console.log('onDidOpenTextDocument', document.languageId);
-		if (document.languageId === 'purescript') {
-			console.log('onDidOpenTextDocument', document.uri);
-			const params = {
-				textDocument: {
-					uri: document.uri.toString(),
-				},
-			};
-			client.sendNotification('textDocument/didOpen', params);
-		}
-	});
-
-	workspace.onDidSaveTextDocument(async (document: TextDocument) => {
-		console.log('onDidSaveTextDocument', document.languageId);
-
-		if (document.languageId === 'purescript') {
-			console.log('onDidSaveTextDocument', document.uri);
-			const params = {
-				textDocument: {
-					uri: document.uri.toString(),
-				},
-			};
-			client.sendNotification('textDocument/didSave', params);
-		}
-	});
+	// 	if (document.languageId === 'purescript') {
+	// 		console.log('onDidSaveTextDocument', document.uri);
+	// 		const params = {
+	// 			textDocument: {
+	// 				uri: document.uri.toString(),
+	// 			},
+	// 		};
+	// 		client.sendNotification('textDocument/didSave', params);
+	// 	}
+	// });
 
 
-	client.registerProposedFeatures();
+	// client.registerProposedFeatures();
 	// Start the client. This will also launch the server
 	await client.start();
 
