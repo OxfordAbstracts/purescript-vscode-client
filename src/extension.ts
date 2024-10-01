@@ -18,7 +18,11 @@ export async function activate(context: ExtensionContext) {
 	// Otherwise the run options are used
 	const serverOptions: ServerOptions = {
 		command: "/Users/rorycampbell/.local/bin/purs",
-		args: ["lsp", "server"],
+		args: ["lsp", "server",
+			"--log-level", "debug",
+			"src/**/*.purs",
+			".spago/**/*.purs",
+		],
 	};
 
 	const outputChannel = window.createOutputChannel(name);
@@ -39,10 +43,7 @@ export async function activate(context: ExtensionContext) {
 		outputChannel,
 		diagnosticCollectionName: name,
 		outputChannelName: name,
-
 	};
-
-
 
 	// Create the language client and start the client.
 	client = new LanguageClient(
@@ -52,33 +53,21 @@ export async function activate(context: ExtensionContext) {
 		clientOptions
 	);
 
+	workspace.onDidSaveTextDocument(async (document: TextDocument) => {
+		console.log('onDidSaveTextDocument', document.languageId);
 
-	// workspace.onDidOpenTextDocument(async (document: TextDocument) => {
-	// 	console.log('onDidOpenTextDocument', document.languageId);
-	// 	if (document.languageId === 'purescript') {
-	// 		console.log('onDidOpenTextDocument', document.uri);
-	// 		const params = {
-	// 			textDocument: {
-	// 				uri: document.uri.toString(),
-	// 			},
-	// 		};
-	// 		client.sendNotification('textDocument/didOpen', params);
-	// 	}
-	// });
-
-	// workspace.onDidSaveTextDocument(async (document: TextDocument) => {
-	// 	console.log('onDidSaveTextDocument', document.languageId);
-
-	// 	if (document.languageId === 'purescript') {
-	// 		console.log('onDidSaveTextDocument', document.uri);
-	// 		const params = {
-	// 			textDocument: {
-	// 				uri: document.uri.toString(),
-	// 			},
-	// 		};
-	// 		client.sendNotification('textDocument/didSave', params);
-	// 	}
-	// });
+		if (document.languageId === 'purescript') {
+			console.log('onDidSaveTextDocument', document.uri);
+			const params = {
+				textDocument: {
+					uri: document.uri.toString(),
+					id: document.uri.toString(),
+				},
+				id: document.uri.toString(),
+			};
+			client.sendRequest('textDocument/diagnostic', params);
+		}
+	});
 
 
 	// client.registerProposedFeatures();
