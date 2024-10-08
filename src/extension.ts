@@ -1,3 +1,4 @@
+import debounce = require('debounce');
 import { workspace, ExtensionContext, window, TextDocument } from 'vscode';
 import {
 	CloseAction,
@@ -10,6 +11,8 @@ import {
 
 let client: LanguageClient;
 
+
+
 export async function activate(context: ExtensionContext) {
 	const name = 'purescript-lsp';
 
@@ -19,9 +22,12 @@ export async function activate(context: ExtensionContext) {
 	const serverOptions: ServerOptions = {
 		command: "/Users/rorycampbell/.local/bin/purs",
 		args: ["lsp", "server",
-			"--log-level", "debug",
+			"--output-directory", "../../../output",
+			"--log-level", "all",
 			"src/**/*.purs",
 			".spago/**/*.purs",
+			".spago/p/*/*.purs",
+			"../../../.spago/p/*/src/**/*.purs",
 		],
 	};
 
@@ -43,6 +49,11 @@ export async function activate(context: ExtensionContext) {
 		outputChannel,
 		diagnosticCollectionName: name,
 		outputChannelName: name,
+		diagnosticPullOptions: 
+			{
+				onChange: false,
+				onSave: false,
+			},
 	};
 
 	// Create the language client and start the client.
@@ -53,21 +64,29 @@ export async function activate(context: ExtensionContext) {
 		clientOptions
 	);
 
-	workspace.onDidSaveTextDocument(async (document: TextDocument) => {
-		console.log('onDidSaveTextDocument', document.languageId);
+	const diagnosticCanellationTokens = new Map<string, [string]>();
 
-		if (document.languageId === 'purescript') {
-			console.log('onDidSaveTextDocument', document.uri);
+	const getPursDiagnostic = async (document: TextDocument) => {
+		if(document.languageId === 'purescript') {
+			const uri = document.uri.toString();
 			const params = {
 				textDocument: {
-					uri: document.uri.toString(),
-					id: document.uri.toString(),
+					uri,
+					id: uri,
 				},
-				id: document.uri.toString(),
+				id: uri,
 			};
 			client.sendRequest('textDocument/diagnostic', params);
 		}
-	});
+	};
+
+	const getPursDiagnosticDebounced = debounce(getPursDiagnostic, 500);
+
+	workspace.onDidSaveTextDocument(getPursDiagnosticDebounced);
+
+	workspace.onDidChangeTextDocument((ev) => getPursDiagnosticDebounced(ev.document));
+
+	workspace.onDidOpenTextDocument(getPursDiagnosticDebounced);
 
 
 	// client.registerProposedFeatures();
