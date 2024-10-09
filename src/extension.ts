@@ -1,6 +1,8 @@
 import debounce = require('debounce');
 import { workspace, ExtensionContext, window, TextDocument } from 'vscode';
 import {
+	CancellationToken,
+	CancellationTokenSource,
 	CloseAction,
 	ErrorAction,
 	LanguageClient,
@@ -51,8 +53,8 @@ export async function activate(context: ExtensionContext) {
 		outputChannelName: name,
 		diagnosticPullOptions: 
 			{
-				onChange: false,
-				onSave: false,
+				onChange: true,
+				onSave: true,
 			},
 	};
 
@@ -63,8 +65,6 @@ export async function activate(context: ExtensionContext) {
 		serverOptions,
 		clientOptions
 	);
-
-	const diagnosticCanellationTokens = new Map<string, [string]>();
 
 	const getPursDiagnostic = async (document: TextDocument) => {
 		if(document.languageId === 'purescript') {
@@ -80,7 +80,7 @@ export async function activate(context: ExtensionContext) {
 		}
 	};
 
-	const getPursDiagnosticDebounced = debounce(getPursDiagnostic, 500);
+	const getPursDiagnosticDebounced = debounce(getPursDiagnostic, 500, { immediate: true });
 
 	workspace.onDidSaveTextDocument(getPursDiagnosticDebounced);
 
@@ -89,7 +89,6 @@ export async function activate(context: ExtensionContext) {
 	workspace.onDidOpenTextDocument(getPursDiagnosticDebounced);
 
 
-	// client.registerProposedFeatures();
 	// Start the client. This will also launch the server
 	await client.start();
 
