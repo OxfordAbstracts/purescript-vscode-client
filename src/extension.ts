@@ -1,13 +1,7 @@
-import debounce = require('debounce');
 import { workspace, ExtensionContext, window, TextDocument } from 'vscode';
 import {
-	CancellationToken,
-	CancellationTokenSource,
-	CloseAction,
-	ErrorAction,
 	LanguageClient,
 	LanguageClientOptions,
-	RevealOutputChannelOn,
 	ServerOptions
 } from 'vscode-languageclient/node';
 
@@ -22,13 +16,13 @@ export async function activate(context: ExtensionContext) {
 	// If the extension is launched in debug mode then the debug server options are used
 	// Otherwise the run options are used
 	const serverOptions: ServerOptions = {
-		command: "/Users/rorycampbell/.local/bin/purs",
+		command: "purs",
 		args: ["lsp", "server",
 			"--output-directory", "../../../output",
 			"--log-level", "all",
 			"src/**/*.purs",
 			".spago/**/*.purs",
-			".spago/p/*/*.purs",
+			".ff/p/*/*.purs",
 			"../../../.spago/p/*/src/**/*.purs",
 		],
 	};
@@ -53,7 +47,7 @@ export async function activate(context: ExtensionContext) {
 		outputChannelName: name,
 		diagnosticPullOptions: 
 			{
-				onChange: true,
+				onChange: false,
 				onSave: true,
 			},
 	};
@@ -65,29 +59,6 @@ export async function activate(context: ExtensionContext) {
 		serverOptions,
 		clientOptions
 	);
-
-	const getPursDiagnostic = async (document: TextDocument) => {
-		if(document.languageId === 'purescript') {
-			const uri = document.uri.toString();
-			const params = {
-				textDocument: {
-					uri,
-					id: uri,
-				},
-				id: uri,
-			};
-			client.sendRequest('textDocument/diagnostic', params);
-		}
-	};
-
-	const getPursDiagnosticDebounced = debounce(getPursDiagnostic, 500, { immediate: true });
-
-	workspace.onDidSaveTextDocument(getPursDiagnosticDebounced);
-
-	workspace.onDidChangeTextDocument((ev) => getPursDiagnosticDebounced(ev.document));
-
-	workspace.onDidOpenTextDocument(getPursDiagnosticDebounced);
-
 
 	// Start the client. This will also launch the server
 	await client.start();
