@@ -24,8 +24,20 @@
 		],
 		"commands": [
 			{
-				"command": "purescript.build",
-				"title": "PureScript: Build"
+				"command": "purescript-lsp.build",
+				"title": "Purescript: Build"
+			},
+			{
+				"command": "purescript-lsp.clear-cache",
+				"title": "Purescript: clear all caches"
+			},
+			{
+				"command": "purescript-lsp.clear-cache:rebuild",
+				"title": "Purescript: clear rebuild cache"
+			},
+			{
+				"command": "purescript-lsp.clear-cache:export",
+				"title": "Purescript: clear export cache"
 			}
 		],
 		"configuration": {

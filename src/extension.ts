@@ -1,4 +1,4 @@
-import { workspace, ExtensionContext, window, TextDocument } from 'vscode';
+import { workspace, ExtensionContext, window, TextDocument, commands } from 'vscode';
 import {
 	LanguageClient,
 	LanguageClientOptions,
@@ -16,9 +16,10 @@ export async function activate(context: ExtensionContext) {
 	// If the extension is launched in debug mode then the debug server options are used
 	// Otherwise the run options are used
 	const serverOptions: ServerOptions = {
-		command: "purs",
+		command: "/Users/rorycampbell/.local/bin/purs",
 		args: ["lsp", "server",
-			"--output-directory", "../../../output",
+			"--output-directory", "./output",
+			// "--output-directory", "../../../output",
 			"--log-level", "all",
 			"src/**/*.purs",
 			".spago/**/*.purs",
@@ -59,6 +60,19 @@ export async function activate(context: ExtensionContext) {
 		serverOptions,
 		clientOptions
 	);
+
+	context.subscriptions.push(commands.registerCommand('purescript-lsp.build', () => {
+		client.sendRequest('build');
+  }));
+	context.subscriptions.push(commands.registerCommand('purescript-lsp.clear-cache', () => {
+		client.sendRequest('clear-cache');
+  }));
+	context.subscriptions.push(commands.registerCommand('purescript-lsp.clear-cache:exports', () => {
+		client.sendRequest('clear-cache:exports');
+  }));
+	context.subscriptions.push(commands.registerCommand('purescript-lsp.clear-cache:rebuilds', () => {
+		client.sendRequest('clear-cache:rebuilds');
+  }));
 
 	// Start the client. This will also launch the server
 	await client.start();
