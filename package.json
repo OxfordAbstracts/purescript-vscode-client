@@ -70,6 +70,55 @@
 				],
 				"default": "purs-tidy",
 				"description": "Tool to use to for formatting. Must be installed and on PATH (or npm installed with addNpmPath set)"
+			}, 
+			"purescript-lsp.outputPath": {
+				"scope": "resource",
+				"type": "string",
+				"default": "./output",
+				"description": "Path to purs output directory"
+			},
+			"purescript-lsp.globs": {
+				"scope": "resource",
+				"type": "array",
+				"default": ["src/**/*.purs", ".spago/**/*.purs"],
+				"description": "Source file globs"
+			},
+			"purescript-lsp.logLevel": {
+				"scope": "resource",
+				"type": "string",
+				"enum": [
+						"all",
+						"debug",
+						"perf",
+						"info",
+						"warning",
+						"error",
+						"none"
+				],
+				"default": "warning"
+			},
+			"purescript-lsp.": {
+				"scope": "resource",
+				"type": "traceValue",
+				"default": null
+			},
+			"purescript-lsp.maxTypeLength": {
+				"scope": "resource",
+				"type": "number",
+				"default": 100,
+				"description": "Max length of types in autocomplete"
+			},
+			"purescript-lsp.maxCompletions": {
+				"scope": "resource",
+				"type": "number",
+				"default": 50,
+				"description": "Max number of completions to show"
+			},
+			"purescript-lsp.maxFilesInCache": {
+				"scope": "resource",
+				"type": "number",
+				"default": 16,
+				"description": "Max number of files to keep in memory cache"
 			}
 		}
 	},
