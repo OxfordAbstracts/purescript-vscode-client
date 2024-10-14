@@ -38,10 +38,22 @@
 			{
 				"command": "purescript-lsp.clear-cache:export",
 				"title": "Purescript: clear export cache"
+			},
+			{ 
+				"command": "purescript-lsp.delete-output",
+				"title": "Purescript: Delete output"
+			},
+			{ 
+				"command": "purescript-lsp.index-fast",
+				"title": "Purescript: Index existing externs"
+			},
+			{ 
+				"command": "purescript-lsp.index-full",
+				"title": "Purescript: Index externs with full rebuild"
 			}
 		],
 		"configuration": {
-			"purescript.formatter": {
+			"purescript-lsp.formatter": {
 				"scope": "resource",
 				"type": "string",
 				"enum": [

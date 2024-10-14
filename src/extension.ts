@@ -46,11 +46,11 @@ export async function activate(context: ExtensionContext) {
 		outputChannel,
 		diagnosticCollectionName: name,
 		outputChannelName: name,
-		diagnosticPullOptions: 
-			{
-				onChange: false,
-				onSave: true,
-			},
+		diagnosticPullOptions:
+		{
+			onChange: false,
+			onSave: true,
+		},
 	};
 
 	// Create the language client and start the client.
@@ -63,16 +63,25 @@ export async function activate(context: ExtensionContext) {
 
 	context.subscriptions.push(commands.registerCommand('purescript-lsp.build', () => {
 		client.sendRequest('build');
-  }));
+	}));
 	context.subscriptions.push(commands.registerCommand('purescript-lsp.clear-cache', () => {
 		client.sendRequest('clear-cache');
-  }));
+	}));
 	context.subscriptions.push(commands.registerCommand('purescript-lsp.clear-cache:exports', () => {
 		client.sendRequest('clear-cache:exports');
-  }));
+	}));
 	context.subscriptions.push(commands.registerCommand('purescript-lsp.clear-cache:rebuilds', () => {
 		client.sendRequest('clear-cache:rebuilds');
-  }));
+	}));
+	context.subscriptions.push(commands.registerCommand('purescript-lsp.delete-output', () => {
+		client.sendRequest('delete-output');
+	}));
+	context.subscriptions.push(commands.registerCommand('purescript-lsp.index-fast', () => {
+		client.sendRequest('index-fast');
+	}));
+	context.subscriptions.push(commands.registerCommand('purescript-lsp.index-full', () => {
+		client.sendRequest('index-full');
+	}));
 
 	// Start the client. This will also launch the server
 	await client.start();
