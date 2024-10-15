@@ -15,11 +15,18 @@
 	"engines": {
 		"vscode": "^1.75.0"
 	},
+	"keywords": [
+		"purescript",
+		"purs",
+		"ide",
+		"lsp"
+	],
 	"activationEvents": [
 		"onLanguage:purescript",
 		"onLanguage:Purescript",
 		"workspaceContains:src/**/*.purs",
-		"workspaceContains:spago.yaml"
+		"workspaceContains:**/spago.yaml",
+		"workspaceContains:**/spago.dhall"
 	],
 	"contributes": {
 		"languages": [

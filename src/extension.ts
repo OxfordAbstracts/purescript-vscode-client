@@ -10,13 +10,13 @@ let client: LanguageClient;
 
 
 export async function activate(context: ExtensionContext) {
-	const name = 'purescript-lsp';
+	const name = 'purs-lsp-client';
 
 	console.log('Congratulations, "purecript-lsp" is now active!');
 	// If the extension is launched in debug mode then the debug server options are used
 	// Otherwise the run options are used
 	const serverOptions: ServerOptions = {
-		command: "/Users/rorycampbell/.local/bin/purs",
+		command: "purs",
 		args: ["lsp", "server",
 			"--output-directory", "./output",
 			// "--output-directory", "../../../output",
@@ -61,25 +61,25 @@ export async function activate(context: ExtensionContext) {
 		clientOptions
 	);
 
-	context.subscriptions.push(commands.registerCommand('purescript-lsp.build', () => {
+	context.subscriptions.push(commands.registerCommand('purs-lsp-client.build', () => {
 		client.sendRequest('build');
 	}));
-	context.subscriptions.push(commands.registerCommand('purescript-lsp.clear-cache', () => {
+	context.subscriptions.push(commands.registerCommand('purs-lsp-client.clear-cache', () => {
 		client.sendRequest('clear-cache');
 	}));
-	context.subscriptions.push(commands.registerCommand('purescript-lsp.clear-cache:exports', () => {
+	context.subscriptions.push(commands.registerCommand('purs-lsp-client.clear-cache:exports', () => {
 		client.sendRequest('clear-cache:exports');
 	}));
-	context.subscriptions.push(commands.registerCommand('purescript-lsp.clear-cache:rebuilds', () => {
+	context.subscriptions.push(commands.registerCommand('purs-lsp-client.clear-cache:rebuilds', () => {
 		client.sendRequest('clear-cache:rebuilds');
 	}));
-	context.subscriptions.push(commands.registerCommand('purescript-lsp.delete-output', () => {
+	context.subscriptions.push(commands.registerCommand('purs-lsp-client.delete-output', () => {
 		client.sendRequest('delete-output');
 	}));
-	context.subscriptions.push(commands.registerCommand('purescript-lsp.index-fast', () => {
+	context.subscriptions.push(commands.registerCommand('purs-lsp-client.index-fast', () => {
 		client.sendRequest('index-fast');
 	}));
-	context.subscriptions.push(commands.registerCommand('purescript-lsp.index-full', () => {
+	context.subscriptions.push(commands.registerCommand('purs-lsp-client.index-full', () => {
 		client.sendRequest('index-full');
 	}));
 
