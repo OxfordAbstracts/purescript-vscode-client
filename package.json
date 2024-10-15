@@ -1,6 +1,7 @@
 {
 	"name": "purs-lsp-client",
 	"description": "Purescript language server client",
+	"publisher": "OxfordAbstracts",
 	"license": "MIT",
 	"version": "1.0.0",
 	"repository": "https://github.com/OxfordAbstracts/purescript-vscode-client",
@@ -8,7 +9,10 @@
 		"vscode": "^1.75.0"
 	},
 	"activationEvents": [
-		"onLanguage:purescript"
+		"onLanguage:purescript",
+		"onLanguage:Purescript",
+		"workspaceContains:src/**/*.purs",
+		"workspaceContains:spago.yaml"
 	],
 	"contributes": {
 		"languages": [
@@ -40,15 +44,15 @@
 				"command": "purescript-lsp.clear-cache:export",
 				"title": "Purescript: clear export cache"
 			},
-			{ 
+			{
 				"command": "purescript-lsp.delete-output",
 				"title": "Purescript: Delete output"
 			},
-			{ 
+			{
 				"command": "purescript-lsp.index-fast",
 				"title": "Purescript: Index existing externs"
 			},
-			{ 
+			{
 				"command": "purescript-lsp.index-full",
 				"title": "Purescript: Index externs with full rebuild"
 			}
@@ -71,7 +75,7 @@
 				],
 				"default": "purs-tidy",
 				"description": "Tool to use to for formatting. Must be installed and on PATH (or npm installed with addNpmPath set)"
-			}, 
+			},
 			"purescript-lsp.outputPath": {
 				"scope": "resource",
 				"type": "string",
@@ -81,20 +85,23 @@
 			"purescript-lsp.globs": {
 				"scope": "resource",
 				"type": "array",
-				"default": ["src/**/*.purs", ".spago/**/*.purs"],
+				"default": [
+					"src/**/*.purs",
+					".spago/**/*.purs"
+				],
 				"description": "Source file globs"
 			},
 			"purescript-lsp.logLevel": {
 				"scope": "resource",
 				"type": "string",
 				"enum": [
-						"all",
-						"debug",
-						"perf",
-						"info",
-						"warning",
-						"error",
-						"none"
+					"all",
+					"debug",
+					"perf",
+					"info",
+					"warning",
+					"error",
+					"none"
 				],
 				"default": "warning"
 			},
