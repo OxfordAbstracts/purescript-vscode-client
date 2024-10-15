@@ -43,36 +43,36 @@
 		],
 		"commands": [
 			{
-				"command": "purescript-lsp.build",
+				"command": "purs-lsp-client.build",
 				"title": "Purescript: Build"
 			},
 			{
-				"command": "purescript-lsp.clear-cache",
+				"command": "purs-lsp-client.clear-cache",
 				"title": "Purescript: clear all caches"
 			},
 			{
-				"command": "purescript-lsp.clear-cache:rebuild",
+				"command": "purs-lsp-client.clear-cache:rebuild",
 				"title": "Purescript: clear rebuild cache"
 			},
 			{
-				"command": "purescript-lsp.clear-cache:export",
+				"command": "purs-lsp-client.clear-cache:export",
 				"title": "Purescript: clear export cache"
 			},
 			{
-				"command": "purescript-lsp.delete-output",
+				"command": "purs-lsp-client.delete-output",
 				"title": "Purescript: Delete output"
 			},
 			{
-				"command": "purescript-lsp.index-fast",
+				"command": "purs-lsp-client.index-fast",
 				"title": "Purescript: Index existing externs"
 			},
 			{
-				"command": "purescript-lsp.index-full",
+				"command": "purs-lsp-client.index-full",
 				"title": "Purescript: Index externs with full rebuild"
 			}
 		],
 		"configuration": {
-			"purescript-lsp.formatter": {
+			"purs-lsp-client.formatter": {
 				"scope": "resource",
 				"type": "string",
 				"enum": [
@@ -90,13 +90,13 @@
 				"default": "purs-tidy",
 				"description": "Tool to use to for formatting. Must be installed and on PATH (or npm installed with addNpmPath set)"
 			},
-			"purescript-lsp.outputPath": {
+			"purs-lsp-client.outputPath": {
 				"scope": "resource",
 				"type": "string",
 				"default": "./output",
 				"description": "Path to purs output directory"
 			},
-			"purescript-lsp.globs": {
+			"purs-lsp-client.globs": {
 				"scope": "resource",
 				"type": "array",
 				"default": [
@@ -105,7 +105,7 @@
 				],
 				"description": "Source file globs"
 			},
-			"purescript-lsp.logLevel": {
+			"purs-lsp-client.logLevel": {
 				"scope": "resource",
 				"type": "string",
 				"enum": [
@@ -119,24 +119,24 @@
 				],
 				"default": "warning"
 			},
-			"purescript-lsp.": {
+			"purs-lsp-client.": {
 				"scope": "resource",
 				"type": "traceValue",
 				"default": null
 			},
-			"purescript-lsp.maxTypeLength": {
+			"purs-lsp-client.maxTypeLength": {
 				"scope": "resource",
 				"type": "number",
 				"default": 100,
 				"description": "Max length of types in autocomplete"
 			},
-			"purescript-lsp.maxCompletions": {
+			"purs-lsp-client.maxCompletions": {
 				"scope": "resource",
 				"type": "number",
 				"default": 50,
 				"description": "Max number of completions to show"
 			},
-			"purescript-lsp.maxFilesInCache": {
+			"purs-lsp-client.maxFilesInCache": {
 				"scope": "resource",
 				"type": "number",
 				"default": 16,
